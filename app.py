@@ -18,17 +18,41 @@ st.set_page_config(
     layout="centered"
 )
 
-# Background image (replace URL with your own image or upload to GitHub and use raw link)
+# Background image (replace with your own image URL)
 background_image_url = "https://images.unsplash.com/photo-1579684385127-1ef15d5089a3?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80"
+
 st.markdown(
     f"""
     <style>
+    /* Remove default Streamlit white/black lines and borders */
     .stApp {{
         background-image: url("{background_image_url}");
         background-size: cover;
         background-position: center;
         background-attachment: fixed;
     }}
+    /* Hide the default header and footer lines */
+    header {{
+        display: none;
+    }}
+    /* Remove borders from input containers */
+    .stSlider > div, .stSelectbox > div {{
+        border: none;
+        box-shadow: none;
+        background: rgba(255,255,255,0.2);
+        border-radius: 10px;
+        padding: 10px;
+        margin-bottom: 5px;
+    }}
+    /* Hide any horizontal rulers */
+    hr {{
+        display: none;
+    }}
+    /* Main container background transparent */
+    .main {{
+        background: transparent;
+    }}
+    /* Custom header styles */
     .main-header {{
         font-size: 2.5rem;
         font-weight: bold;
@@ -65,10 +89,10 @@ st.markdown(
         color: #ffd700;
         text-decoration: none;
     }}
-    .stSlider > div {{
-        background-color: rgba(255,255,255,0.8);
-        border-radius: 5px;
-        padding: 10px;
+    /* Remove any extra spacing caused by default Streamlit containers */
+    .block-container {{
+        padding-top: 1rem;
+        padding-bottom: 1rem;
     }}
     </style>
     """,
@@ -97,7 +121,7 @@ with col2:
 # Convert smoker to binary (1 for Yes, 0 for No)
 smoker_binary = 1 if smoker == "Yes" else 0
 
-# Live prediction as user changes inputs
+# Live prediction
 input_data = pd.DataFrame({
     "age": [age],
     "bmi": [bmi],
