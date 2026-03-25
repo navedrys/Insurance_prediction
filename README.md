@@ -5,8 +5,7 @@
 
 A simple web application that predicts annual medical charges based on personal details like age, BMI, number of children, and smoking status. Built with **Streamlit** and a **Linear Regression** model trained on real‑world insurance data.
 
-👉 **Try it live:** [insuranceprediction-naved.streamlit.app](https://insuranceprediction-naved.streamlit.app/)  
-👉 **Click the badge above** or the link to launch the app!
+👉 **Try it live:** [insuranceprediction-naved.streamlit.app](https://insuranceprediction-naved.streamlit.app/)
 
 ---
 
@@ -24,31 +23,17 @@ Based on these, it predicts the **annual medical charges** using a trained Linea
 
 ---
 
-## 🧠 How It Works (A Simple Flow)
+## 🧠 How It Works (Interactive Flow Diagram)
 
-```plaintext
-┌─────────────────────────┐
-│   User inputs data      │
-│  (age, bmi, children,   │
-│         smoker)         │
-└───────────┬─────────────┘
-            ▼
-┌─────────────────────────┐
-│  App (Streamlit)        │
-│  collects inputs and    │
-│  sends them to the      │
-│  trained model          │
-└───────────┬─────────────┘
-            ▼
-┌─────────────────────────┐
-│  Linear Regression      │
-│  Model (model.pkl)      │
-│  – learned from         │
-│    historical data      │
-└───────────┬─────────────┘
-            ▼
-┌─────────────────────────┐
-│  Predicted annual       │
-│  insurance cost         │
-│  displayed to user      │
-└─────────────────────────┘
+```mermaid
+graph TD
+    A[User inputs: Age, BMI, Children, Smoker] --> B[Streamlit Web App]
+    B --> C[Linear Regression Model (model.pkl)]
+    C --> D[Predicted Annual Insurance Cost]
+    D --> E[Displayed to User]
+
+    style A fill:#f9f,stroke:#333,stroke-width:2px
+    style B fill:#bbf,stroke:#333,stroke-width:2px
+    style C fill:#bfb,stroke:#333,stroke-width:2px
+    style D fill:#ffb,stroke:#333,stroke-width:2px
+    style E fill:#fbb,stroke:#333,stroke-width:2px
