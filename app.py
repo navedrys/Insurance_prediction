@@ -18,90 +18,19 @@ st.set_page_config(
     layout="centered"
 )
 
-# Background image (replace with your own image URL)
-background_image_url = "https://images.unsplash.com/photo-1579684385127-1ef15d5089a3?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80"
-
-st.markdown(
-    f"""
+# Remove default Streamlit header and dividers (white/black lines)
+st.markdown("""
     <style>
-    /* Remove default Streamlit white/black lines and borders */
-    .stApp {{
-        background-image: url("{background_image_url}");
-        background-size: cover;
-        background-position: center;
-        background-attachment: fixed;
-    }}
-    /* Hide the default header and footer lines */
-    header {{
-        display: none;
-    }}
-    /* Remove borders from input containers */
-    .stSlider > div, .stSelectbox > div {{
-        border: none;
-        box-shadow: none;
-        background: rgba(255,255,255,0.2);
-        border-radius: 10px;
-        padding: 10px;
-        margin-bottom: 5px;
-    }}
-    /* Hide any horizontal rulers */
-    hr {{
-        display: none;
-    }}
-    /* Main container background transparent */
-    .main {{
-        background: transparent;
-    }}
-    /* Custom header styles */
-    .main-header {{
-        font-size: 2.5rem;
-        font-weight: bold;
-        color: #ffffff;
-        text-align: center;
-        margin-bottom: 0.5rem;
-        text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
-    }}
-    .sub-header {{
-        font-size: 1.2rem;
-        color: #f0f0f0;
-        text-align: center;
-        margin-bottom: 2rem;
-        text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
-    }}
-    .prediction-box {{
-        background-color: rgba(255,255,255,0.9);
-        border-radius: 10px;
-        padding: 20px;
-        text-align: center;
-        margin: 20px 0;
-        box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-        backdrop-filter: blur(2px);
-    }}
-    .contact {{
-        background-color: rgba(0,0,0,0.6);
-        text-align: center;
-        margin-top: 40px;
-        padding: 20px;
-        border-radius: 10px;
-        color: white;
-    }}
-    .contact a {{
-        color: #ffd700;
-        text-decoration: none;
-    }}
-    /* Remove any extra spacing caused by default Streamlit containers */
-    .block-container {{
-        padding-top: 1rem;
-        padding-bottom: 1rem;
-    }}
+        header {visibility: hidden;}
+        .stApp header {display: none;}
+        hr {display: none;}
+        .block-container {padding-top: 1rem;}
     </style>
-    """,
-    unsafe_allow_html=True
-)
+""", unsafe_allow_html=True)
 
 # Header
-st.markdown('<div class="main-header">🏥 Insurance Cost Predictor</div>', unsafe_allow_html=True)
-st.markdown('<div class="sub-header">Adjust the values below to see your estimated annual medical charges</div>', unsafe_allow_html=True)
+st.title("🏥 Insurance Cost Predictor")
+st.markdown("Adjust the values below and click **Predict** to see your estimated annual medical charges.")
 
 # Input widgets
 col1, col2 = st.columns(2)
@@ -118,26 +47,23 @@ with col2:
     smoker = st.selectbox("Smoker", options=["No", "Yes"], index=0,
                           help="Do you smoke?")
 
-# Convert smoker to binary (1 for Yes, 0 for No)
+# Convert smoker to binary
 smoker_binary = 1 if smoker == "Yes" else 0
 
-# Live prediction
-input_data = pd.DataFrame({
-    "age": [age],
-    "bmi": [bmi],
-    "children": [children],
-    "smoker_yes": [smoker_binary]
-})
-
-prediction = model.predict(input_data)[0]
-
-# Display live prediction
-st.markdown('<div class="prediction-box">', unsafe_allow_html=True)
-st.metric(label="💰 Estimated Annual Medical Charges", value=f"${prediction:,.2f}")
-st.markdown('</div>', unsafe_allow_html=True)
+# Prediction button
+if st.button("Predict", type="primary", use_container_width=True):
+    # Create input DataFrame
+    input_data = pd.DataFrame({
+        "age": [age],
+        "bmi": [bmi],
+        "children": [children],
+        "smoker_yes": [smoker_binary]
+    })
+    prediction = model.predict(input_data)[0]
+    st.success(f"💰 Estimated Annual Medical Charges: **${prediction:,.2f}**")
 
 # Contact information
-st.markdown('<div class="contact">', unsafe_allow_html=True)
+st.markdown("---")
 st.markdown("### 📬 Contact Me")
 st.markdown("""
 - **GitHub**: [navedrys](https://github.com/navedrys)
@@ -145,4 +71,3 @@ st.markdown("""
 - **Email**: navedrys@gmail.com
 - **Phone**: +91 7414991107
 """)
-st.markdown('</div>', unsafe_allow_html=True)
